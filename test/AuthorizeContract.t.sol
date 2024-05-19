@@ -3,11 +3,13 @@ pragma solidity ^0.8.20;
 
 import {Test, console} from "forge-std/Test.sol";
 import "../src/TBill.sol";
+import "../src/AuthorizeContract.sol";
 import "../lib/openzeppelin-contracts/contracts/access/Ownable.sol";
 
 
 contract TBillTest is Test {
     TBill private tBill;
+    AuthorizeContract private authoritativeContract;
     address private owner;
     address private initialHolder;
     address private executor;
@@ -18,6 +20,8 @@ contract TBillTest is Test {
         executor = vm.addr(3);
         vm.prank(executor);
         tBill = new TBill(owner);
+        vm.prank(executor);
+        authoritativeContract = new AuthorizeContract(address(tBill), owner);
     }
 
     function test_PausedContract() public {
@@ -33,7 +37,7 @@ contract TBillTest is Test {
         vm.prank(owner);
         tBill.pause();
         vm.prank(executor);
-        vm.expectRevert(abi.encodeWithSignature("OwnableUnauthorizedAccount(address)",executor));
+        vm.expectRevert(abi.encodeWithSignature("OwnableUnauthorizedAccount(address)", executor));
         tBill.mint(initialHolder, 1000);
 
     }

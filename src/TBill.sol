@@ -26,7 +26,6 @@ contract TBill is ERC20, ERC20Pausable, Ownable, ERC20Permit {
         _mint(to, amount);
     }
 
-    // The following functions are overrides required by Solidity.
 
     function _update(address from, address to, uint256 value)
     internal
