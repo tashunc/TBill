@@ -12,3 +12,4 @@ docs/
 /.idea
 # Dotenv file
 .env
+/cache
