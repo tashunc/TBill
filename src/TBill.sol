@@ -14,16 +14,23 @@ contract TBill is ERC20, ERC20Pausable, Ownable, ERC20Permit {
     ERC20Permit("TBill")
     {}
 
-    function pause() external onlyOwner {
+    function pause() internal onlyOwner {
         _pause();
     }
 
-    function unpause() external onlyOwner {
+    function unpause() internal onlyOwner {
         _unpause();
     }
 
-    function mint(address to, uint256 amount) public onlyOwner {
+    function mint(address to, uint256 amount) internal onlyOwner whenNotPaused{
         _mint(to, amount);
+    }
+
+    function burn(address from, uint256 amount) onlyOwner {
+        _burn(from, amount);
+        if (_paused == true) {
+            _unpause();
+        }
     }
 
 
