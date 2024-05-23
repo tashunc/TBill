@@ -14,11 +14,11 @@ contract TBill is ERC20, ERC20Pausable, Ownable, ERC20Permit {
     ERC20Permit("TBill")
     {}
 
-    function pause() public onlyOwner {
+    function pause() external onlyOwner {
         _pause();
     }
 
-    function unpause() public onlyOwner {
+    function unpause() external onlyOwner {
         _unpause();
     }
 

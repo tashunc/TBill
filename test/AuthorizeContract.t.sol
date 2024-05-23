@@ -28,7 +28,7 @@ contract TBillTest is Test {
         vm.prank(owner);
         tBill.pause();
         vm.prank(owner);
-        vm.expectRevert(bytes4(keccak256("EnforcedPause()")));
+        vm.expectRevert(Pausable.EnforcedPause.selector);
         tBill.mint(initialHolder, 1000);
 
     }
@@ -37,12 +37,12 @@ contract TBillTest is Test {
         vm.prank(owner);
         tBill.pause();
         vm.prank(executor);
-        vm.expectRevert(abi.encodeWithSignature("OwnableUnauthorizedAccount(address)", executor));
+        vm.expectRevert(abi.encodeWithSelector(Ownable.OwnableUnauthorizedAccount.selector, executor));
         tBill.mint(initialHolder, 1000);
 
     }
 
-    function testFuzz_UnPausedContract(uint256 x) public {
+    function test_UnPausedContract(uint256 x) public {
         vm.prank(owner);
         tBill.pause();
         vm.prank(owner);
